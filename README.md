@@ -12,4 +12,4 @@ Project phase of the Fill the Tech Gap Program. Customer Relation Management Pro
 
 ## Contributors
 - [me](https://github.com/47leonel-wabo)
-- [Noutsa William](https://github.com/NC-52)
+- [Noutsa William](https://github.com/NC-52) 🔥 SCRUM MASTER ⭐⭐⭐⭐⭐
