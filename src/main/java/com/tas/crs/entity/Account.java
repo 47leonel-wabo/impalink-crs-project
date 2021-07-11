@@ -1,5 +1,6 @@
 package com.tas.crs.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -29,10 +30,10 @@ public class Account {
     private Customer customer;
 
     @Column(name = "is_closed")
-    private Boolean isClosed;
+    private Boolean closed = false;
 
     @Column(name = "is_archived")
-    private Boolean isArchived;
+    private Boolean archived = false;
 
     public Account() {
     }
@@ -53,24 +54,25 @@ public class Account {
         return updatedAt;
     }
 
+    @JsonIgnore
     public Customer getCustomer() {
         return customer;
     }
 
     public Boolean getClosed() {
-        return isClosed;
+        return closed;
     }
 
     public Boolean getArchived() {
-        return isArchived;
+        return archived;
     }
 
     public void setArchived(Boolean archived) {
-        isArchived = archived;
+        this.archived = archived;
     }
 
     public void setClosed(Boolean closed) {
-        isClosed = closed;
+        this.closed = closed;
     }
 
     public Long getId() {

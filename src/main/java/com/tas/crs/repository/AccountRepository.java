@@ -9,10 +9,10 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-    List<Account> findByIsClosedTrue();
+    List<Account> findByClosedTrue();
 
-    List<Account> findByIsClosedFalse();
+    List<Account> findByClosedFalse();
 
-    List<Account> findByIsArchived();
+    List<Account> findByArchivedTrue();
 
 }

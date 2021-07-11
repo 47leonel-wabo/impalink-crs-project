@@ -25,12 +25,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<Account> fetchValidAccounts() {
-        return mAccountRepository.findByIsClosedFalse();
+        return mAccountRepository.findByClosedFalse();
     }
 
     @Override
     public List<Account> fetchClosedAccounts() {
-        return mAccountRepository.findByIsClosedTrue();
+        return mAccountRepository.findByClosedTrue();
     }
 
     @Override

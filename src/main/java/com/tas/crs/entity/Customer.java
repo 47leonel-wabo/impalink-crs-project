@@ -35,7 +35,7 @@ public class Customer {
     @Column(name = "city")
     private String city;
 
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private Account account;
 
     public Customer() {
