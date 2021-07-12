@@ -24,10 +24,10 @@ public class CustomerExceptionHandler {
     }
 
     @ExceptionHandler(CustomerNotFoundException.class)
-    public ResponseEntity<CustomerException> customerRequestBadRequest(
+    public ResponseEntity<CRSError> customerRequestBadRequest(
             final CustomerNotFoundException e,
             final HttpServletRequest request) {
-        return new ResponseEntity<>(new CustomerException(
+        return new ResponseEntity<>(new CRSError(
                 e.getLocalizedMessage(),
                 LocalDateTime.now(),
                 BAD_REQUEST.name(),
@@ -37,15 +37,28 @@ public class CustomerExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<CustomerException> genericException(
+    public ResponseEntity<CRSError> genericException(
             final HttpServletRequest request,
             final Exception e) {
-        return new ResponseEntity<>(new CustomerException(
+        return new ResponseEntity<>(new CRSError(
                 e.getLocalizedMessage(),
                 LocalDateTime.now(),
                 INTERNAL_SERVER_ERROR.name(),
                 request.getContextPath()
                 , request.getLocale()
         ), INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MessageNotFoundException.class)
+    public ResponseEntity<CRSError> messageNotFound(
+            final HttpServletRequest request,
+            final MessageNotFoundException e){
+        return new ResponseEntity<>(new CRSError(
+                e.getLocalizedMessage(),
+                LocalDateTime.now(),
+                BAD_REQUEST.name(),
+                request.getContextPath()
+                , request.getLocale()
+        ), BAD_REQUEST);
     }
 }

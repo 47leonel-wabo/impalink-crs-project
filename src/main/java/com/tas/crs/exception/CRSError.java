@@ -3,7 +3,7 @@ package com.tas.crs.exception;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
-public class CustomerException {
+public class CRSError {
 
     private  final String message;
     private final LocalDateTime date;
@@ -11,7 +11,7 @@ public class CustomerException {
     private final String path;
     private final Locale local;
 
-    public CustomerException(String message, LocalDateTime date, String code, String path, Locale local) {
+    public CRSError(String message, LocalDateTime date, String code, String path, Locale local) {
         this.message = message;
         this.date = date;
         this.code = code;
@@ -21,6 +21,10 @@ public class CustomerException {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getPath() {
+        return path;
     }
 
     public LocalDateTime getDate() {
