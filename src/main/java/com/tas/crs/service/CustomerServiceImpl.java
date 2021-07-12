@@ -2,6 +2,7 @@ package com.tas.crs.service;
 
 import com.tas.crs.entity.Account;
 import com.tas.crs.entity.Customer;
+import com.tas.crs.exception.CustomerNotFoundException;
 import com.tas.crs.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteCustomer(final Long customerId) {
-        mCustomerRepository.deleteById(customerId);
+        Optional<Customer> optionalCustomer = fetchCustomer(customerId);
+        if (optionalCustomer.isPresent()) {
+            mCustomerRepository.deleteById(customerId);
+        } else {
+            throw new CustomerNotFoundException(String.format("Customer with ID: %s not found", customerId));
+        }
     }
 
     @Override
