@@ -10,6 +10,9 @@ Project phase of the Fill the Tech Gap Program. Customer Relation Management Pro
 * H2 (dev only)
 * Rest Repository
 
+## Technical BPMN
+![](./pics/CRSTechnicalBPMN.png)
+
 ## Contributors
 - [me](https://github.com/47leonel-wabo)
 - [Tchamo Frank](https://github.com/franck2019) 🚀
