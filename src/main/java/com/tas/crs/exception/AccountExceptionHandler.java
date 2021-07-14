@@ -16,7 +16,6 @@ public class AccountExceptionHandler {
     private final MessageSource mMessageSource;
 
     @Autowired
-
     public AccountExceptionHandler(MessageSource mMessageSource) {
         this.mMessageSource = mMessageSource;
     }

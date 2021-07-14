@@ -1,7 +1,7 @@
 package com.tas.crs.controller;
 
 import com.tas.crs.entity.Account;
-import com.tas.crs.service.AccountService;
+import com.tas.crs.exception.AccountNotFoundException;
 import com.tas.crs.service.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,13 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.security.auth.login.AccountException;
-import javax.security.auth.login.AccountNotFoundException;
+import java.nio.channels.AcceptPendingException;
 import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.ResponseEntity.badRequest;
 
 @RestController
 @RequestMapping(path = "/api/v1/accounts")
@@ -37,11 +35,7 @@ public class AccountController {
 
     @GetMapping(path ="/{id}")
     public ResponseEntity<Account> getAccount(final @PathVariable(name = "id") Long accountId) {
-        Optional<Account> account = mAccountService
-                .fetchAccount(accountId)
-                .orElseThrow(() -> new AccountNotFoundException(
-                        String.format("Account with ID: %s not found", accountId)
-                ));
+        Account account = mAccountService.fetchAccount(accountId).orElseThrow(() -> new AccountNotFoundException("message here"));
         return ResponseEntity.badRequest().body(account);
     }
 
