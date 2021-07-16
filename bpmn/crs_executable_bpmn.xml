@@ -1,0 +1,158 @@
+*<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <process id="csr_digitization_process" isExecutable="false">
+
+    <dataObjectReference id="DataObjectReference_13sw5o8" dataObjectRef="DataObject_14iys18" />
+    <dataObject id="DataObject_14iys18" />
+    <dataObjectReference id="DataObjectReference_0r5eimi" dataObjectRef="DataObject_0y5zcp6" />
+    <dataObject id="DataObject_0y5zcp6" />
+	<dataObject id="DataObject_CRS" type="db">
+       	<params name="host" value="localhost:3307"></params>
+       	<params name="user" value="root"></params>
+   		<params name="pass" value=""></params>
+   		<params name="db" value="crs_db"></params>
+    </dataObject>
+
+    <startEvent id="start_event">
+      <outgoing>start_event_to_sign_in_task</outgoing>
+    </startEvent>
+
+    <sequenceFlow id="start_event_to_sign_in_task" sourceRef="start_event" targetRef="sign_in_task" />
+    <task id="sign_in_task" name="sign in">
+		<incoming>start_event_to_sign_in_task</incoming>
+		<outgoing>sign_in_to_has_account_gateway</outgoing>
+		<connector>
+		<inputOutput>
+            <inputParameter name="params" value="email"/>
+			<inputParameter name="params" value="password"/>
+        </inputOutput>
+        <connectorId>form_1</connectorId>
+        </connector>
+    </task>
+	
+	<operation dataObjectId="DataObject_CRS" action="create" table="customer" operationStatement="insert into customer values ('william', 'WABO', 'williamnooutsa52@gmail.com', '680359497', 'strange', 'newTown', 'newCity')"></operation>
+
+    <sequenceFlow id="sign_in_to_has_account_gateway" sourceRef="sign_in_task" targetRef="has_account_gateway" />
+    <exclusiveGateway id="has_account_gateway" name="has an account?">
+      <incoming>sign_in_to_has_account_gateway</incoming>
+      <outgoing>has_account_gateway_to_fill_form_task</outgoing>
+      <outgoing>has_account_to_select_operation_task</outgoing>
+    </exclusiveGateway>
+    
+    <sequenceFlow id="has_account_to_select_operation_task" name="yes" sourceRef="has_account_gateway" targetRef="select_operation_task" />
+    <task id="select_operation_task" name="select operation">
+      <incoming>has_account_to_select_operation_task</incoming>
+      <outgoing>select_operation_to_update_or_close_gateway</outgoing>
+    </task>
+
+    <sequenceFlow id="select_operation_to_update_or_close_gateway" sourceRef="select_operation_task" targetRef="update_or_close_start_gateway" />
+    <exclusiveGateway id="update_or_close_start_gateway">
+      <incoming>select_operation_to_update_or_close_gateway</incoming>
+      <outgoing>update_or_close_start_gateway_to_close_account_task</outgoing>
+      <outgoing>update_or_close_gateway_to_update</outgoing>
+    </exclusiveGateway>
+
+    <sequenceFlow id="update_or_close_gateway_to_update" name="update" sourceRef="update_or_close_start_gateway" targetRef="update_account_task" />
+    <task id="update_account_task" name="update account">
+      <incoming>update_or_close_gateway_to_update</incoming>
+      <outgoing>update_account_task_to_update_or_close_end_gateway</outgoing>
+      <property id="Property_0gg7j73" name="__targetRef_placeholder" />
+      <dataInputAssociation id="DataInputAssociation_1ln15xz">
+        <sourceRef>DataObjectReference_13sw5o8</sourceRef>
+        <targetRef>Property_0gg7j73</targetRef>
+      </dataInputAssociation>
+    </task>
+
+    <sequenceFlow id="update_or_close_start_gateway_to_close_account_task" name="close" sourceRef="update_or_close_start_gateway" targetRef="close_account_task" />
+    <task id="close_account_task" name="close account">
+      <incoming>update_or_close_start_gateway_to_close_account_task</incoming>
+      <outgoing>close_account_task_to_update_or_close_end_gateway</outgoing>
+    </task>
+
+    <sequenceFlow id="has_account_gateway_to_fill_form_task" name="no" sourceRef="has_account_gateway" targetRef="fill_form_task" />
+    <task id="fill_form_task" name="fill form">
+      <incoming>has_account_gateway_to_fill_form_task</incoming>
+      <outgoing>fill_form_to_is_data_valid_start_gateway</outgoing>
+	  <connector>
+                <inputOutput>
+                    <inputParameter name="params" value="last_name"/>
+                    <inputParameter name="params" value="first_name"/>
+                    <inputParameter name="params" value="email"/>
+                    <inputParameter name="params" value="phone"/>
+                    <inputParameter name="params" value="gender"/>
+                    <inputParameter name="params" value="town"/>
+                    <inputParameter name="params" value="city"/>
+                </inputOutput>
+                <connectorId>form_2</connectorId>
+            </connector>
+    </task>
+
+    <sequenceFlow id="fill_form_to_is_data_valid_start_gateway" sourceRef="fill_form_task" targetRef="is_data_valid_start_gateway" />
+    <exclusiveGateway id="is_data_valid_start_gateway" name="is data valid?">
+      <incoming>fill_form_to_is_data_valid_start_gateway</incoming>
+      <outgoing>is_data_valid_start_gateway_to_get_cause_task</outgoing>
+      <outgoing>is_data_valid_start_gateway_to_create_account_task</outgoing>
+    </exclusiveGateway>
+
+    <sequenceFlow id="is_data_valid_start_gateway_to_get_cause_task" name="no" sourceRef="is_data_valid_start_gateway" targetRef="get_cause_of_data_invalidity_task" />
+    <task id="get_cause_of_data_invalidity_task" name="get cause">
+      <incoming>is_data_valid_start_gateway_to_get_cause_task</incoming>
+      <outgoing>get_cause_to_is_data_valid_end_gateway</outgoing>
+    </task>
+    
+    <sequenceFlow id="is_data_valid_start_gateway_to_create_account_task" name="yes" sourceRef="is_data_valid_start_gateway" targetRef="create_account_task" />
+    <task id="create_account_task" name="create account">
+      <incoming>is_data_valid_start_gateway_to_create_account_task</incoming>
+      <outgoing>create_account_task_to_is_data_valid_end_gateway</outgoing>
+      <property id="Property_1uf9yfp" name="__targetRef_placeholder" />
+      <dataInputAssociation id="DataInputAssociation_09qrxrv">
+        <sourceRef>DataObjectReference_0r5eimi</sourceRef>
+        <targetRef>Property_1uf9yfp</targetRef>
+      </dataInputAssociation>
+    </task>
+
+    <sequenceFlow id="create_account_task_to_is_data_valid_end_gateway" sourceRef="create_account_task" targetRef="is_data_valid_end_gateway" />
+    <sequenceFlow id="get_cause_to_is_data_valid_end_gateway" sourceRef="get_cause_of_data_invalidity_task" targetRef="is_data_valid_end_gateway" />
+    <exclusiveGateway id="is_data_valid_end_gateway">
+      <incoming>create_account_task_to_is_data_valid_end_gateway</incoming>
+      <incoming>get_cause_to_is_data_valid_end_gateway</incoming>
+      <outgoing>is_data_valid_end_gateway_to_aggregation_gateway</outgoing>
+    </exclusiveGateway>
+
+    <sequenceFlow id="close_account_task_to_update_or_close_end_gateway" sourceRef="close_account_task" targetRef="update_or_close_account_end_gateway" />
+    <sequenceFlow id="update_account_task_to_update_or_close_end_gateway" sourceRef="update_account_task" targetRef="update_or_close_account_end_gateway" />
+    <exclusiveGateway id="update_or_close_account_end_gateway">
+      <incoming>close_account_task_to_update_or_close_end_gateway</incoming>
+      <incoming>update_account_task_to_update_or_close_end_gateway</incoming>
+      <outgoing>update_or_close_end_gateway_to_aggregation_gateway</outgoing>
+    </exclusiveGateway>
+
+    <sequenceFlow id="is_data_valid_end_gateway_to_aggregation_gateway" sourceRef="is_data_valid_end_gateway" targetRef="aggregation_before_notify_gateway" />
+    <sequenceFlow id="update_or_close_end_gateway_to_aggregation_gateway" sourceRef="update_or_close_account_end_gateway" targetRef="aggregation_before_notify_gateway" />
+    <exclusiveGateway id="aggregation_before_notify_gateway">
+      <incoming>is_data_valid_end_gateway_to_aggregation_gateway</incoming>
+      <incoming>update_or_close_end_gateway_to_aggregation_gateway</incoming>
+      <outgoing>aggregation_gateway_to_email_notification_task</outgoing>
+    </exclusiveGateway>
+
+    <sequenceFlow id="aggregation_gateway_to_email_notification_task" sourceRef="aggregation_before_notify_gateway" targetRef="email_notification_task" />
+    <task id="email_notification_task" name="email notification">
+      <incoming>aggregation_gateway_to_email_notification_task</incoming>
+      <outgoing>email_notification_task_to_end_event</outgoing>
+	  <connector>
+                <inputOutput>
+                    <inputParameter name="to" value="var:to"/>
+                    <inputParameter name="subject" value="var:subject"/>
+                    <inputParameter name="text" value="var:content"/>
+                </inputOutput>
+                <connectorId>mail_send</connectorId>
+            </connector>
+    </task>
+
+    <sequenceFlow id="email_notification_task_to_end_event" sourceRef="email_notification_task" targetRef="end_event" />
+    <endEvent id="end_event">
+      <incoming>email_notification_task_to_end_event</incoming>
+    </endEvent>
+
+  </process>
+</definitions>
