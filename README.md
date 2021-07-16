@@ -13,6 +13,9 @@ Project phase of the Fill the Tech Gap Program. Customer Relation Management Pro
 ## Technical BPMN
 ![](./pics/CRSTechnicalBPMN.png)
 
+## Executable BPMN
+![](./bpmn/crs_pbmnpng.png)
+
 ## Contributors
 - [me](https://github.com/47leonel-wabo)
 - [Tchamo Frank](https://github.com/franck2019) 🚀
