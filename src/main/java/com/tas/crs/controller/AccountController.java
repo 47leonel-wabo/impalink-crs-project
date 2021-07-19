@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping(path = "/api/v1/accounts")
 public class AccountController {
 
-    // TODO: implement all account's methods
+    // TODO: implement all account methods
     private final AccountServiceImpl mAccountService;
 
     @Autowired
