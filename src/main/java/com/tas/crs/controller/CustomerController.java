@@ -24,7 +24,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Customer> createAccount(final @RequestBody Customer customer) {
+    public ResponseEntity<Customer> createCustomer(final @RequestBody Customer customer) {
         return new ResponseEntity<>(mCustomerService.addCustomer(customer), CREATED);
     }
 
@@ -42,4 +42,11 @@ public class CustomerController {
                 ));
         return ResponseEntity.badRequest().body(customer);
     }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable(name = "id") Long customerId) {
+        return new ResponseEntity<Customer>(mCustomerService.updateCustomerInfo(customer), OK);
+    }
+
+
 }

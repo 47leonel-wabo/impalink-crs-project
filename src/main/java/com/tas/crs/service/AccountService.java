@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccountService {
+
+    Account addAccount(Account account);
+
     List<Account> fetchAccounts();
 
     List<Account> fetchValidAccounts();
 
     List<Account> fetchClosedAccounts();
+
+    Account updateAccountDetails(Account account);
 
     void deleteAccount(Long id) throws Exception;
 

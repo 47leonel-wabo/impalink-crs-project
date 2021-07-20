@@ -1,6 +1,7 @@
 package com.tas.crs.service;
 
 import com.tas.crs.entity.Account;
+import com.tas.crs.entity.Customer;
 import com.tas.crs.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,16 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     public AccountServiceImpl(AccountRepository accountRepository) {
         mAccountRepository = accountRepository;
+    }
+
+    @Override
+    public Account addAccount(final Account account) {
+        return mAccountRepository.save(account);
+    }
+
+    @Override
+    public Account updateAccountDetails(final Account account) {
+        return mAccountRepository.save(account);
     }
 
     @Override
