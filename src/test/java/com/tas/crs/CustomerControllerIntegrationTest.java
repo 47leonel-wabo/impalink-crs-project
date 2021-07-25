@@ -2,6 +2,7 @@ package com.tas.crs;
 
 
 import com.tas.crs.entity.Customer;
+import com.tas.crs.entity.Gender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,29 @@ public class CustomerControllerIntegrationTest {
     }
 
     @Test
+    public void checkIfCustomerExists() {
+        //given
+        Customer customer = new Customer(
+                "William",
+                "Noutsa",
+                "email@email.com",
+                "680-35-94-97",
+                Gender.MALE,
+                "Bonaberi",
+                "Douala"
+        );
+        //ResponseEntity<Customer> response = this.testRestTemplate.getForEntity("http://localhost:" + port + "/api/v1/customers/1", Customer.class);
+        //when
+
+    }
+
+    /*
+    @Test
     public void getCustomer() {
         ResponseEntity<Customer> response = this.testRestTemplate.getForEntity("http://localhost:" + port + "/api/v1/customers/1", Customer.class);
 
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
     }
+
+     */
 }
