@@ -1,11 +1,14 @@
 package com.tas.crs.entity;
 
+import io.swagger.annotations.ApiModel;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "customer")
+@ApiModel(description = "Details about the customer")
 public class Customer {
 
     @Id
