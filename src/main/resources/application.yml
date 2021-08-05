@@ -10,7 +10,8 @@ spring:
     password:
     properties.mail:
       transport-protocol: smtp
-      smt:
+      smtp:
+        ssl.trust: smtp.strato.de
         auth: true
         starttls.enable: true
 
