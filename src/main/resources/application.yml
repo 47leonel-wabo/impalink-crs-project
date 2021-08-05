@@ -2,20 +2,15 @@ spring:
   profiles:
     active: dev
 
-# Email configuration
+  # Email configuration
   mail:
-    host: localhost
-    port: 1025
-    username: hi
-    password: hi
-    properties:
-      mail:
-        smt:
-          ssl:
-            trust: "*"
-          auth: true
-          starttls:
-            enable: true
-          connectionTimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
+    host: smtp.strato.de
+    port: 465
+    username: mail@team-solutions.net
+    password:
+    properties.mail:
+      transport-protocol: smtp
+      smt:
+        auth: true
+        starttls.enable: true
+

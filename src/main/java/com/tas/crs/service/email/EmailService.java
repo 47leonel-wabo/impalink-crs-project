@@ -31,7 +31,7 @@ public class EmailService implements EmailSender {
             mimeMessageHelper.setText(message, true);
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setSubject("Confirm account creation");
-            mimeMessageHelper.setFrom("aiwatas@outlook.com");
+            mimeMessageHelper.setFrom("mail@team-solutions.net");
             mMailSender.send(mimeMessage);
         } catch (MessagingException e) {
             LOGGER.error("Unable to send email", e);
