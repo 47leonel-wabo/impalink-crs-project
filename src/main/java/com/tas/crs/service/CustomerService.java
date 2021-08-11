@@ -1,5 +1,6 @@
 package com.tas.crs.service;
 
+import com.tas.crs.dto.CustomerDto;
 import com.tas.crs.entity.Customer;
 
 import java.util.List;
@@ -11,6 +12,8 @@ public interface CustomerService {
     void deleteCustomer(Long customerId);
 
     Customer updateCustomerInfo(Customer customer);
+
+    Customer updateCustomerInfo(Long id, CustomerDto customerDto);
 
     List<Customer> fetchCustomers();
 
