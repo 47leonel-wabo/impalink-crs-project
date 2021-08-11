@@ -12,7 +12,7 @@
     <artifactId>impalink-crs</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>impalink-crs</name>
-    <description>Customer Ralation Service</description>
+    <description>Customer Relation Service</description>
     <properties>
         <java.version>11</java.version>
     </properties>

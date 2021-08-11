@@ -1,6 +1,7 @@
 package com.tas.crs.service;
 
 import com.tas.crs.entity.Account;
+import com.tas.crs.exception.AccountNotFoundException;
 import com.tas.crs.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,10 +35,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccount(final Long id) throws Exception {
+    public void deleteAccount(final Long id) {
         Optional<Account> optionalAccount = mAccountRepository.findById(id);
         if (optionalAccount.isEmpty()) {
-            throw new Exception(String.format("Account with ID: %s not found", id));
+            throw new AccountNotFoundException(String.format("Account with ID: %s not found", id));
         }
         Account account = optionalAccount.get();
         account.setClosed(true);

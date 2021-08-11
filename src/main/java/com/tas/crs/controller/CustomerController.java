@@ -1,8 +1,10 @@
 package com.tas.crs.controller;
 
 import com.tas.crs.dto.EmailDto;
+import com.tas.crs.entity.Account;
 import com.tas.crs.entity.Customer;
 import com.tas.crs.exception.CustomerNotFoundException;
+import com.tas.crs.service.AccountServiceImpl;
 import com.tas.crs.service.CustomerServiceImpl;
 import com.tas.crs.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -19,16 +22,23 @@ import static org.springframework.http.HttpStatus.OK;
 public class CustomerController {
 
     private final CustomerServiceImpl mCustomerService;
+    private final AccountServiceImpl accountService;
     private final EmailService mEmailService;
 
     @Autowired
-    public CustomerController(CustomerServiceImpl customerService, EmailService emailService) {
-        mCustomerService = customerService;
-        mEmailService = emailService;
+    public CustomerController(CustomerServiceImpl mCustomerService, AccountServiceImpl accountService, EmailService mEmailService) {
+        this.mCustomerService = mCustomerService;
+        this.accountService = accountService;
+        this.mEmailService = mEmailService;
     }
 
     @PostMapping
     public ResponseEntity<Customer> createAccount(final @RequestBody Customer customer) {
+        return new ResponseEntity<>(mCustomerService.addCustomer(customer), CREATED);
+    }
+
+    @PostMapping
+    public ResponseEntity<Customer> Account(final @RequestBody Customer customer) {
         return new ResponseEntity<>(mCustomerService.addCustomer(customer), CREATED);
     }
 
@@ -45,6 +55,24 @@ public class CustomerController {
                         String.format("Customer with ID: %s not found", customerId)
                 ));
         return ResponseEntity.badRequest().body(customer);
+    }
+
+    @PatchMapping(path = {"/customer"})
+
+    @DeleteMapping(path = {"/account/{customer_id}"})
+    public ResponseEntity<?> deleteAccount(final @PathVariable("customer_id") Long id) {
+        // first get targeted customer
+        Optional<Customer> customer = this.mCustomerService.fetchCustomer(id);
+        if (customer.isEmpty()) {
+            // throw an exception if there is no customer
+            throw new CustomerNotFoundException(String.format("Customer with ID %s not found", id));
+        }
+        // if there is a customer, get its account by getting account linked to him
+        Optional<Account> account = this.accountService.fetchAccount(customer.get().getAccount().getId());
+        // then call delete method
+        this.accountService.deleteAccount(account.get().getId());
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = {"/email"})
@@ -65,14 +93,16 @@ public class CustomerController {
                         "Dear, valuable customer<br/><br/>" +
                         "Welcome,<br/> please fill the form below to end your registration process<br/><br/>" +
                         "<div style=\"display: \"flex\"; flex-direction: \"column\"; justify-content: \"center\"; \">" +
-                        "<form>" +
+                        "<form id=\"signup\">" +
                         "<di><label for=\"first_name\">First name</label>" +
                         "<br />" +
                         "<input type=\"text\" id=\"first_name\" />" +
+                        "<small></small" +
                         "</div>" +
                         "<di><label for=\"last_name\">Last name</label>" +
                         "<br />" +
                         "<input type=\"text\" id=\"last_name\" />" +
+                        "<small></small" +
                         "</div>" +
                         "<br />" +
                         "<input type=\"submit\" />" +

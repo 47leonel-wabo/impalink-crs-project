@@ -38,9 +38,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer updateCustomerInfo(final Customer customer) {
-        return getSave(customer);
+    public Customer updateCustomerInfo(Customer customer) {
+        return null;
     }
+
 
     @Override
     public List<Customer> fetchCustomers() {
