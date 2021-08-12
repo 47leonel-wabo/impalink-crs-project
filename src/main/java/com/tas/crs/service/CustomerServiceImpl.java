@@ -38,13 +38,19 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-
     @Override
-    public Customer updateCustomerInfo(Customer customer) {
-        return null;
+    public Customer updateCustomerInfo(Long id, Customer customerRequest) {
+        Customer customer = mCustomerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException(String.format("Customer with ID %s not found", id)));
+        customer.setEmail(customerRequest.getEmail());
+        customer.setPhone(customerRequest.getPhone());
+        customer.setTown(customerRequest.getTown());
+        customer.setCity(customerRequest.getCity());
+        return mCustomerRepository.save(customer);
     }
 
-    
+
+    /*
     @Override
     public Customer updateCustomerInfo(Long id, CustomerDto customerDto) {
         if(mCustomerRepository.findById(id).isPresent()) {
@@ -62,6 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         return null;
     }
+     */
 
 
 
