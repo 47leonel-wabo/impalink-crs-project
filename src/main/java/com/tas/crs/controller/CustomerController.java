@@ -54,9 +54,23 @@ public class CustomerController {
         return ResponseEntity.badRequest().body(customer);
     }
 
+    /*
     @PatchMapping(path = {"/id"})
     public ResponseEntity<Customer> updatedCustomer(@PathVariable(name = "id") Long id, @RequestBody CustomerDto customerDto) {
         return new ResponseEntity<>(mCustomerService.updateCustomerInfo(id, customerDto), OK);
+    }
+
+     */
+
+    @PutMapping(path = {"/id"})
+    public ResponseEntity<Customer> updateCustomer(@PathVariable("customer_id") Long id, @RequestBody Customer newCustomer) {
+        return mCustomerService.fetchCustomer(id).map(customer -> {
+            customer.setEmail(newCustomer.getEmail());
+            customer.setPhone(newCustomer.getPhone());
+            customer.setTown(newCustomer.getTown());
+            customer.setCity(newCustomer.getTown());
+            return ResponseEntity.ok(customer);
+        }).orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
     }
 
     @DeleteMapping(path = {"/account/{customer_id}"})
