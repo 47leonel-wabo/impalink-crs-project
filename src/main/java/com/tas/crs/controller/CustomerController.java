@@ -9,6 +9,7 @@ import com.tas.crs.service.AccountServiceImpl;
 import com.tas.crs.service.CustomerService;
 import com.tas.crs.service.CustomerServiceImpl;
 import com.tas.crs.service.email.EmailService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,9 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping(path = "/api/v1/customers")
 public class CustomerController {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     private final CustomerServiceImpl mCustomerService;
     private final AccountServiceImpl accountService;
@@ -54,15 +58,31 @@ public class CustomerController {
         return ResponseEntity.badRequest().body(customer);
     }
 
+    @PutMapping(path = "{/id}")
+    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable(name = "id") Long id, @RequestBody CustomerDto customerDto) {
 
-    @PatchMapping(path = {"/id"})
+        //convert DTO to Entity
+        Customer postCustomer = modelMapper.map(customerDto, Customer.class);
+
+        Customer customer = mCustomerService.updateCustomerInfo(id, postCustomer);
+
+        //convert entity to DTO
+        CustomerDto customerResponse = modelMapper.map(customer, CustomerDto.class);
+
+        return ResponseEntity.ok().body(customerResponse);
+    }
+
+    /*
+    @PatchMapping(path = "{/id}")
     public ResponseEntity<Customer> updatedCustomer(@PathVariable(name = "id") Long id, @RequestBody CustomerDto customerDto) {
         return new ResponseEntity<>(mCustomerService.updateCustomerInfo(id, customerDto), OK);
     }
 
+     */
+
 
     /*
-    @PutMapping(path = {"/id"})
+    @PutMapping(path = "{/id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable("id") Long id, @RequestBody Customer newCustomer) {
         return mCustomerService.fetchCustomer(id).map(customer -> {
             customer.setEmail(newCustomer.getEmail());
