@@ -41,20 +41,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String firstName,
-                    String lastName,
-                    String email,
-                    String phone,
-                    Gender gender,
-                    String town,
-                    String city) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.gender = gender;
-        this.town = town;
-        this.city = city;
+    public Customer(Long id, String firstName, String lastName, String email, String phone, Gender gender, String town, String city) {
     }
 
     public Long getId() {

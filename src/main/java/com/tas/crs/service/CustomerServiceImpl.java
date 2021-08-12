@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
         return null;
     }
 
-    /*
+    
     @Override
     public Customer updateCustomerInfo(Long id, CustomerDto customerDto) {
         if(mCustomerRepository.findById(id).isPresent()) {
@@ -55,15 +55,14 @@ public class CustomerServiceImpl implements CustomerService {
             existingCustomer.setTown(customerDto.getTown());
             existingCustomer.setCity(customerDto.getCity());
 
-            return mCustomerRepository.save(existingCustomer);
+            Customer updatedCustomer = mCustomerRepository.save(existingCustomer);
 
-
-           // return new Customer(updatedCustomer.getId(), updatedCustomer.getFirstName(), updatedCustomer.getLastName(), updatedCustomer.getEmail(), updatedCustomer.getPhone(), updatedCustomer.getGender(), updatedCustomer.getTown(), updatedCustomer.getCity());
+            return new Customer(updatedCustomer.getId(), updatedCustomer.getFirstName(), updatedCustomer.getLastName(), updatedCustomer.getEmail(), updatedCustomer.getPhone(), updatedCustomer.getGender(), updatedCustomer.getTown(), updatedCustomer.getCity());
         }
 
         return null;
     }
-    */
+
 
 
     @Override

@@ -13,7 +13,7 @@ public interface CustomerService {
 
     Customer updateCustomerInfo(Customer customer);
 
-    //Customer updateCustomerInfo(Long id, CustomerDto customerDto);
+    Customer updateCustomerInfo(Long id, CustomerDto customerDto);
 
     List<Customer> fetchCustomers();
 
