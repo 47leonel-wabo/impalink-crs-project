@@ -1,5 +1,6 @@
 package com.tas.crs.service;
 
+import com.tas.crs.dto.CustomerDto;
 import com.tas.crs.entity.Account;
 import com.tas.crs.entity.Customer;
 import com.tas.crs.exception.CustomerNotFoundException;
@@ -37,10 +38,31 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+
     @Override
     public Customer updateCustomerInfo(Customer customer) {
         return null;
     }
+
+    
+    @Override
+    public Customer updateCustomerInfo(Long id, CustomerDto customerDto) {
+        if(mCustomerRepository.findById(id).isPresent()) {
+            Customer existingCustomer = mCustomerRepository.findById(id).get();
+
+            existingCustomer.setEmail(customerDto.getEmail());
+            existingCustomer.setPhone(customerDto.getEmail());
+            existingCustomer.setTown(customerDto.getTown());
+            existingCustomer.setCity(customerDto.getCity());
+
+            Customer updatedCustomer = mCustomerRepository.save(existingCustomer);
+
+            return new Customer(updatedCustomer.getId(), updatedCustomer.getFirstName(), updatedCustomer.getLastName(), updatedCustomer.getEmail(), updatedCustomer.getPhone(), updatedCustomer.getGender(), updatedCustomer.getTown(), updatedCustomer.getCity());
+        }
+
+        return null;
+    }
+
 
 
     @Override
